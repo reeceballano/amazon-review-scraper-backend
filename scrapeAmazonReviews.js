@@ -48,9 +48,11 @@ const scrapeAmazonReviews = async (code) => {
         for (let index = 0; index < limitPage; index++) {
             // wait 1 sec for page load
             await page.waitFor(1000);
+
             // call and wait extractedEvaluateCall and concatenate results every iteration.
             // You can use results.push, but will get collection of collections at the end of iteration
             results = results.concat(await extractedEvaluateCall(page));
+
             // this is where next button on page clicked to jump to another page
             if (index != limitPage - 1) {
                 // no next button on last page
@@ -76,15 +78,12 @@ async function extractedEvaluateCall(page) {
                 let rating = element.childNodes[0].childNodes[0].children[1].innerText;
                 let content = element.childNodes[0].childNodes[0].children[4].innerText;
 
-                if(JSON.stringify(rating).includes('5.0')) {
-                    data.push({content: JSON.stringify(content), rating: JSON.stringify(rating)});
+                // CHECK IF RATING AND CONTENT IS NOT NULL/EMPTY
+                if(content != null) {
+                    if(JSON.stringify(rating).includes('5.0')) {
+                        data.push({content: JSON.stringify(content), rating: JSON.stringify(rating)});
+                    }
                 }
-
-                // const revImage = document.querySelector('.review-image-container');
-                // if(!revImage) {
-
-                // }
-
             }
 
             return data;
