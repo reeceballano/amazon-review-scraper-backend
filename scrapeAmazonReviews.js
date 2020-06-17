@@ -8,8 +8,7 @@ const scrapeAmazonReviews = async (code) => {
 			'--disable-setuid-sandbox'
 		],
 
-		headless: true
-        
+		headless: false
 	});
 
 	const page = await browser.newPage();
@@ -67,21 +66,32 @@ const scrapeAmazonReviews = async (code) => {
 
 async function extractedEvaluateCall(page) {
     return page.evaluate(() => {
-        let data = [];
+        try {
+            let data = [];
 
-        let elements = document.querySelectorAll('.review');
+            let elements = document.querySelectorAll('.review');
 
-        for(let element of elements) {
-            let rating = element.childNodes[0].childNodes[0].children[1].innerText;
-            let content = element.childNodes[0].childNodes[0].children[4].innerText;
+            for(let element of elements) {
 
-            if(rating.includes('5.0')) {
-                data.push({content, rating});
+                let rating = element.childNodes[0].childNodes[0].children[1].innerText;
+                let content = element.childNodes[0].childNodes[0].children[4].innerText;
+
+                if(JSON.stringify(rating).includes('5.0')) {
+                    data.push({content: JSON.stringify(content), rating: JSON.stringify(rating)});
+                }
+                
+                // const revImage = document.querySelector('.review-image-container');
+                // if(!revImage) {
+
+                // }
+
             }
 
-        }
+            return data;
 
-        return data;
+        } catch(err) {
+            console.log(err);
+        }
     });
 }
 
