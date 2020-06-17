@@ -8,7 +8,7 @@ const scrapeAmazonReviews = async (code) => {
 			'--disable-setuid-sandbox'
 		],
 
-		headless: false
+		headless: true
 	});
 
 	const page = await browser.newPage();
@@ -79,7 +79,7 @@ async function extractedEvaluateCall(page) {
                 if(JSON.stringify(rating).includes('5.0')) {
                     data.push({content: JSON.stringify(content), rating: JSON.stringify(rating)});
                 }
-                
+
                 // const revImage = document.querySelector('.review-image-container');
                 // if(!revImage) {
 
