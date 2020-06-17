@@ -9,6 +9,7 @@ const scrapeAmazonReviews = async (code) => {
 		],
 
 		headless: true
+        
 	});
 
 	const page = await browser.newPage();
