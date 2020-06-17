@@ -23,5 +23,22 @@ app.get('/api', (req, res) => {
 	    })
 });
 
+// Handle production
+if (process.env.NODE_ENV === 'production') {
+	console.log('prod');
+	// Static folder
+	app.use(express.static(__dirname + '/public/'));
+
+	// Handle SPA
+	app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+} else {
+	console.log('dev');
+	// Static folder
+	app.use(express.static(__dirname + '/public/'));
+
+	// Handle SPA
+	app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));	
+}
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
