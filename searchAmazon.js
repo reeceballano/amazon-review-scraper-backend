@@ -8,7 +8,7 @@ const searchAmazon = async (search) => {
 			'--disable-setuid-sandbox'
 		],
 
-		headless: false
+		headless: true
 	});
 
 	const page = await browser.newPage();
