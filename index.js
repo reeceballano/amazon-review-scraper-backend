@@ -1,6 +1,7 @@
 const express 				= require('express');
 const app 					= express();
 const scrapeAmazonReviews 	= require('./scrapeAmazonReviews');
+const searchAmazon 			= require('./searchAmazon');
 const cors      			= require('cors');
 
 app.use(express.json());
@@ -21,6 +22,23 @@ app.get('/api', (req, res) => {
 	    .catch( (error) => {
 	    	res.status(401).json({ error: 'No reviews' });
 	    })
+});
+
+app.get('/search', (req, res) => {
+	const search = req.query.search;
+
+	if(search == '') {
+		return res.status(404).json({error: 'Please enter a keyword'});
+	} 
+
+	searchAmazon(search)
+	    .then(results => {
+	        res.status(200);
+	        res.json(results);
+	    })
+	    // .catch( (error) => {
+	    // 	res.status(401).json({ error: 'No result found' });
+	    // })	
 });
 
 // Handle production
