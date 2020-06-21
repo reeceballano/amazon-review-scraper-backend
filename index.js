@@ -20,7 +20,7 @@ app.get('/api', (req, res) => {
 	        res.json(results);
 	    })
 	    .catch( (error) => {
-	    	res.status(401).json({ error: 'No reviews' });
+	    	res.status(404).json({ error: 'No reviews' });
 	    })
 });
 
