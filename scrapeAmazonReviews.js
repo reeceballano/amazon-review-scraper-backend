@@ -81,7 +81,7 @@ async function extractedEvaluateCall(page) {
                 // CHECK IF RATING AND CONTENT IS NOT NULL/EMPTY
                 if(content != null) {
                     if(JSON.stringify(rating).includes('5.0')) {
-                        data.push({content: JSON.stringify(content), rating: JSON.stringify(rating)});
+                        data.push({content, rating});
                     }
                 }
             }
